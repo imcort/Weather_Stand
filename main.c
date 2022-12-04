@@ -75,6 +75,7 @@
 #include "hdc1080.h"
 #include "MS5611.h"
 #include "ccs811.h"
+#include "nrf_calendar.h"
 
 #include "screen_layout.h"
 #include "nbiot.h"
@@ -179,24 +180,12 @@ static void idle_state_handle(void)
     }
 }
 
-
-
-
-
-APP_TIMER_DEF(lvgl_timer);
-#define LVGL_TICK_PERIOD 10
-
-static void lvgl_timer_handler(void *p_context)
-{
-    lv_tick_inc(LVGL_TICK_PERIOD);
-}
-
 static void timers_create(void)
 {
     ret_code_t err_code;
 
-    err_code = app_timer_create(&lvgl_timer, APP_TIMER_MODE_REPEATED, lvgl_timer_handler);
-    APP_ERROR_CHECK(err_code);
+//    err_code = app_timer_create(&lvgl_timer, APP_TIMER_MODE_REPEATED, lvgl_timer_handler);
+//    APP_ERROR_CHECK(err_code);
 
 }
 
@@ -208,8 +197,7 @@ static void timers_start(void)
     
     
     
-     err_code = app_timer_start(lvgl_timer, APP_TIMER_TICKS(LVGL_TICK_PERIOD), NULL);
-    APP_ERROR_CHECK(err_code);
+     
     
 }
 
@@ -230,7 +218,19 @@ static void power_init(void)
     
 }
 
+static void sensors_init(void)
+{
+    
+    //Sensor
+    nrf_cal_init();
+    iic_init();
+    hdc1080_begin(HDC1080_CONF_TRES_11BIT | HDC1080_CONF_HRES_8BIT);
+    MS5611begin(MS5611_ULTRA_LOW_POWER);
+    ccs811_begin();
+    ccs811_start(CCS811_MODE_60SEC); 
+    apds9960_begin();
 
+}
 
 /**@brief Application main function.
  */
@@ -240,7 +240,7 @@ int main(void)
 		
 	//APP_ERROR_CHECK(ble_dfu_buttonless_async_svci_init());  //Enable in Release
     // Initialize.
-    //power_init();
+    power_init();
     log_init();
     timers_init();
     buttons_leds_init(&erase_bonds);
@@ -255,6 +255,8 @@ int main(void)
  
     timers_create();
     //timers_start();
+    
+    sensors_init();
     
     //nbiot_begin();
     lvgl_begin();

@@ -30,7 +30,7 @@ LV_FONT_DECLARE(miscdispfont);
 LV_FONT_DECLARE(miscfont);
 LV_FONT_DECLARE(timefont);
 //LV_FONT_DECLARE(noto_sans_sc_16);
-LV_FONT_DECLARE(chinese_sc);
+//LV_FONT_DECLARE(chinese_sc);
 
 APP_TIMER_DEF(sensor_timer);
 
@@ -61,20 +61,6 @@ static void m_sensor_timer_handler(void *p_context)
     strftime(disp, 20, "%Y年%m月%d日", nrf_cal_get_time_calibrated());
     lv_label_set_text(date, disp);
     
-}
-
-static void sensors_init(void)
-{
-    
-    //Sensor
-    nrf_cal_init();
-//    iic_init();
-//    hdc1080_begin(HDC1080_CONF_TRES_11BIT | HDC1080_CONF_HRES_8BIT);
-//    MS5611begin(MS5611_ULTRA_LOW_POWER);
-//    ccs811_begin();
-//    ccs811_start(CCS811_MODE_60SEC); 
-    //apds9960_begin();
-
 }
 
 static void timers_create(void)
@@ -115,8 +101,8 @@ void layout_begin(void)
     tvoc = lv_label_create(lv_scr_act());
     
     lv_obj_set_style_text_font(time_h_m, &timefont, 0);
-    lv_obj_set_style_text_font(date, &chinese_sc, 0);
-    lv_obj_set_style_text_font(slogan, &chinese_sc, 0);
+    lv_obj_set_style_text_font(date, &lv_font_montserrat_8, 0);
+//    lv_obj_set_style_text_font(slogan, &chinese_sc, 0);
     
     lv_obj_set_style_text_font(temperature_label, &miscfont, 0);
     lv_obj_set_style_text_font(humidity_label, &miscfont, 0);
@@ -158,14 +144,9 @@ void layout_begin(void)
     lv_label_set_text(eco2_label, "eCO2");
     lv_label_set_text(tvoc_label, "TVOC");
     
-    lv_label_set_text(slogan, "没有BUG的代码是不完美的！没有BUG的代码是不完美的!");
+    //lv_label_set_text(slogan, "没有BUG的代码是不完美的！没有BUG的代码是不完美的!");
     
-    
-    sensors_init();
     timers_create();
     timers_start();
     m_sensor_timer_handler(NULL);
 }
-
-
-
