@@ -194,11 +194,7 @@ static void timers_start(void)
     ret_code_t err_code;
 //	err_code = app_timer_start(sample_timer, APP_TIMER_TICKS(1000), NULL);  //2ms
 //    APP_ERROR_CHECK(err_code);
-    
-    
-    
-     
-    
+   
 }
 
 static void power_init(void)
@@ -253,12 +249,12 @@ int main(void)
     
     advertising_start();
  
-    timers_create();
+    //timers_create();
     //timers_start();
     
     sensors_init();
     
-    //nbiot_begin();
+    nbiot_begin();
     lvgl_begin();
     layout_begin();
     
@@ -267,7 +263,6 @@ int main(void)
     // Enter main loop.
     for (;;)
     {
-         
         lv_task_handler();
         idle_state_handle();
     }

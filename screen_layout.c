@@ -11,6 +11,11 @@
 #include <time.h>
 #include "nrf_calendar.h"
 
+lv_obj_t * scr_1;
+lv_obj_t * scr_2;
+lv_obj_t * scr_3;
+lv_obj_t * scr_4;
+
 lv_obj_t * time_h_m;
 lv_obj_t * date;
 lv_obj_t * slogan;
@@ -30,7 +35,7 @@ LV_FONT_DECLARE(miscdispfont);
 LV_FONT_DECLARE(miscfont);
 LV_FONT_DECLARE(timefont);
 //LV_FONT_DECLARE(noto_sans_sc_16);
-//LV_FONT_DECLARE(chinese_sc);
+LV_FONT_DECLARE(chinese_sc);
 
 APP_TIMER_DEF(sensor_timer);
 
@@ -61,6 +66,7 @@ static void m_sensor_timer_handler(void *p_context)
     strftime(disp, 20, "%Y年%m月%d日", nrf_cal_get_time_calibrated());
     lv_label_set_text(date, disp);
     
+    
 }
 
 static void timers_create(void)
@@ -76,77 +82,102 @@ static void timers_start(void)
 {
     
     ret_code_t err_code;
-    err_code = app_timer_start(sensor_timer, APP_TIMER_TICKS(60000), NULL);  //2ms
+    err_code = app_timer_start(sensor_timer, APP_TIMER_TICKS(60000), NULL);  //1min
     APP_ERROR_CHECK(err_code);
     
 }
 
-//lv_obj_set_style_text_align(label1, LV_TEXT_ALIGN_CENTER, 0); 
-void layout_begin(void)
+void scr_1_begin(void)
 {
-    time_h_m = lv_label_create(lv_scr_act());
-    date = lv_label_create(lv_scr_act());
-    slogan = lv_label_create(lv_scr_act());
-    
-    temperature_label = lv_label_create(lv_scr_act());
-    temperature = lv_label_create(lv_scr_act());
-    
-    humidity_label = lv_label_create(lv_scr_act());
-    humidity = lv_label_create(lv_scr_act());
-    
-    eco2_label = lv_label_create(lv_scr_act());
-    eco2 = lv_label_create(lv_scr_act());
-    
-    tvoc_label = lv_label_create(lv_scr_act());
-    tvoc = lv_label_create(lv_scr_act());
-    
+    time_h_m = lv_label_create(scr_1);
+    date = lv_label_create(scr_1);
+    slogan = lv_label_create(scr_1);
+
+    temperature_label = lv_label_create(scr_1);
+    temperature = lv_label_create(scr_1);
+
+    humidity_label = lv_label_create(scr_1);
+    humidity = lv_label_create(scr_1);
+
+    eco2_label = lv_label_create(scr_1);
+    eco2 = lv_label_create(scr_1);
+
+    tvoc_label = lv_label_create(scr_1);
+    tvoc = lv_label_create(scr_1);
+
     lv_obj_set_style_text_font(time_h_m, &timefont, 0);
-    lv_obj_set_style_text_font(date, &lv_font_montserrat_8, 0);
-//    lv_obj_set_style_text_font(slogan, &chinese_sc, 0);
-    
+    lv_obj_set_style_text_font(date, &chinese_sc, 0);
+    lv_obj_set_style_text_font(slogan, &chinese_sc, 0);
+
     lv_obj_set_style_text_font(temperature_label, &miscfont, 0);
     lv_obj_set_style_text_font(humidity_label, &miscfont, 0);
     lv_obj_set_style_text_font(eco2_label, &miscfont, 0);
     lv_obj_set_style_text_font(tvoc_label, &miscfont, 0);
-    
+
     lv_obj_set_style_text_font(temperature, &miscdispfont, 0);
     lv_obj_set_style_text_font(humidity, &miscdispfont, 0);
     lv_obj_set_style_text_font(eco2, &miscdispfont, 0);
     lv_obj_set_style_text_font(tvoc, &miscdispfont, 0);
-    
-    lv_obj_set_width(time_h_m, 215);
-    lv_obj_set_width(date, 215);
-    lv_obj_set_width(slogan, 215);
+
+    lv_obj_set_width(time_h_m, 400);
+    lv_obj_set_width(date, 400);
+    lv_obj_set_width(slogan, 400);
+
+    lv_obj_set_style_text_align(time_h_m, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_set_style_text_align(date, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_set_style_text_align(slogan, LV_TEXT_ALIGN_CENTER, 0);
+
 //    lv_obj_set_height(temperature, 16);
 //    lv_obj_set_height(humidity, 16);
 //    lv_obj_set_height(eco2, 16);
 //    lv_obj_set_height(tvoc, 16);
-    
-    lv_obj_align(time_h_m, LV_ALIGN_TOP_LEFT, 0, 5);
-    lv_obj_align(date, LV_ALIGN_TOP_LEFT, 0, 65);
-    lv_obj_align(slogan, LV_ALIGN_BOTTOM_LEFT, 0, 0);
-    
-    lv_obj_align(temperature_label, LV_ALIGN_TOP_LEFT, 220, 0);
-    lv_obj_align(humidity_label, LV_ALIGN_TOP_LEFT, 220, 60);
-    lv_obj_align(eco2_label, LV_ALIGN_TOP_LEFT, 220, 120);
-    lv_obj_align(tvoc_label, LV_ALIGN_TOP_LEFT, 220, 180);
-    
-    lv_obj_align(temperature, LV_ALIGN_TOP_RIGHT, 0, 18);
-    lv_obj_align(humidity, LV_ALIGN_TOP_RIGHT, 0, 78);
+
+    lv_obj_align(time_h_m, LV_ALIGN_TOP_MID, 0, 0);
+    lv_obj_align(date, LV_ALIGN_TOP_MID, 0, 60);
+    lv_obj_align(slogan, LV_ALIGN_TOP_MID, 0, 90);
+
+    lv_obj_align(temperature_label, LV_ALIGN_TOP_LEFT, 0, 120);
+    lv_obj_align(humidity_label, LV_ALIGN_TOP_LEFT, 0, 180);
+    lv_obj_align(eco2_label, LV_ALIGN_TOP_LEFT, 200, 120);
+    lv_obj_align(tvoc_label, LV_ALIGN_TOP_LEFT, 200, 180);
+
+    lv_obj_align(temperature, LV_ALIGN_TOP_RIGHT, -220, 138);//18
+    lv_obj_align(humidity, LV_ALIGN_TOP_RIGHT, -220, 198); //78
     lv_obj_align(eco2, LV_ALIGN_TOP_RIGHT, 0, 138);
     lv_obj_align(tvoc, LV_ALIGN_TOP_RIGHT, 0, 198);
-    
-    //lv_label_set_text(time_h_m, "23:59");
-    //lv_label_set_text(date, "2022年11月3日");
-    
+
+    lv_label_set_text(time_h_m, "23:59");
+    lv_label_set_text(date, "2022年11月3日");
+
     lv_label_set_text(temperature_label, "Temperature");
     lv_label_set_text(humidity_label, "Humidity");
     lv_label_set_text(eco2_label, "eCO2");
     lv_label_set_text(tvoc_label, "TVOC");
-    
-    //lv_label_set_text(slogan, "没有BUG的代码是不完美的！没有BUG的代码是不完美的!");
+
+    lv_label_set_text(temperature, "12.34 °C");
+    lv_label_set_text(humidity, "12.12 %");
+    lv_label_set_text(eco2, "120 ppm");
+    lv_label_set_text(tvoc, "1999 ppm");
+
+    lv_label_set_long_mode(slogan, LV_LABEL_LONG_SCROLL);
+    lv_label_set_text(slogan, "没有BUG的代码是不完美的!");
+
+}
+
+void layout_begin(void)
+{
+    scr_1 = lv_obj_create(NULL);
+    scr_2 = lv_obj_create(NULL);
+    scr_3 = lv_obj_create(NULL);
+    scr_4 = lv_obj_create(NULL);
+
+    scr_1_begin();
+    //scr_2_begin();
+
+    lv_scr_load(scr_1);
     
     timers_create();
     timers_start();
     m_sensor_timer_handler(NULL);
+    
 }
