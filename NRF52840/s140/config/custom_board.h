@@ -62,6 +62,7 @@
 #define CCS811_WAKE             NRF_GPIO_PIN_MAP(0,10)
 #define CCS811_INT              NRF_GPIO_PIN_MAP(1,9)
 #define APDS_INT                NRF_GPIO_PIN_MAP(0,13)
+#define USE_INTERRUPT
 
 #define USE_SPI
 
@@ -81,6 +82,6 @@
 #define UART_SENSOR_RTS         NRF_GPIO_PIN_MAP(0,29)
 #define UART_SENSOR_CTS         NRF_GPIO_PIN_MAP(0,31)
 
-//#define SENSOR_NAME_CS 10
+#define NBIOT_RST               NRF_GPIO_PIN_MAP(0,4)
 
 #endif // PCA10040_H

@@ -25,11 +25,12 @@ lv_obj_t * humidity_label;
 lv_obj_t * eco2_label;
 lv_obj_t * tvoc_label;
 
-LV_FONT_DECLARE(datefont);
+//LV_FONT_DECLARE(datefont);
 LV_FONT_DECLARE(miscdispfont);
 LV_FONT_DECLARE(miscfont);
 LV_FONT_DECLARE(timefont);
-LV_FONT_DECLARE(noto_sans_sc_16);
+//LV_FONT_DECLARE(noto_sans_sc_16);
+LV_FONT_DECLARE(chinese_sc);
 
 APP_TIMER_DEF(sensor_timer);
 
@@ -67,12 +68,12 @@ static void sensors_init(void)
     
     //Sensor
     nrf_cal_init();
-    iic_init();
-    hdc1080_begin(HDC1080_CONF_TRES_11BIT | HDC1080_CONF_HRES_8BIT);
-    MS5611begin(MS5611_ULTRA_LOW_POWER);
-    ccs811_begin();
-    ccs811_start(CCS811_MODE_60SEC); 
-    apds9960_begin();
+//    iic_init();
+//    hdc1080_begin(HDC1080_CONF_TRES_11BIT | HDC1080_CONF_HRES_8BIT);
+//    MS5611begin(MS5611_ULTRA_LOW_POWER);
+//    ccs811_begin();
+//    ccs811_start(CCS811_MODE_60SEC); 
+    //apds9960_begin();
 
 }
 
@@ -114,8 +115,8 @@ void layout_begin(void)
     tvoc = lv_label_create(lv_scr_act());
     
     lv_obj_set_style_text_font(time_h_m, &timefont, 0);
-    lv_obj_set_style_text_font(date, &datefont, 0);
-    lv_obj_set_style_text_font(slogan, &noto_sans_sc_16, 0);
+    lv_obj_set_style_text_font(date, &chinese_sc, 0);
+    lv_obj_set_style_text_font(slogan, &chinese_sc, 0);
     
     lv_obj_set_style_text_font(temperature_label, &miscfont, 0);
     lv_obj_set_style_text_font(humidity_label, &miscfont, 0);

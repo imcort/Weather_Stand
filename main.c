@@ -240,28 +240,27 @@ int main(void)
 		
 	//APP_ERROR_CHECK(ble_dfu_buttonless_async_svci_init());  //Enable in Release
     // Initialize.
-    power_init();
+    //power_init();
     log_init();
     timers_init();
     buttons_leds_init(&erase_bonds);
     power_management_init();
-	
+
 	simple_ble_init();
     sd_power_dcdc_mode_set(NRF_POWER_DCDC_ENABLE);
     
     // Start execution.
-    NRF_LOG_INFO("BLE Template Init.");
+    
     advertising_start();
  
     timers_create();
-    timers_start();
+    //timers_start();
     
+    //nbiot_begin();
     lvgl_begin();
-    
     layout_begin();
     
-    nbiot_begin();
-    
+    NRF_LOG_INFO("BLE Template Init.");
 
     // Enter main loop.
     for (;;)
